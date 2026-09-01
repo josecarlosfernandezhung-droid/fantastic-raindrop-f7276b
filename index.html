@@ -2118,17 +2118,6 @@ function fotoTag(src, alt, style, fallbackSrc){
 // igual que un error de carga: se prueba el fallback (la foto grande) antes
 // de rendirse.
 const UMBRAL_BYTES_FOTO_SOSPECHOSA = 4000;
-// Cuántas veces se reintenta la MISMA url antes de rendirse, y cuánto se
-// espera entre intentos. Esto existe porque, justo después de sincronizar,
-// el CDN de imgbb a veces todavía no terminó de propagar la foto recién
-// subida y responde con el cartel de "not found" solo por unos segundos —
-// no es que la foto se haya dañado, es que se pidió demasiado pronto. Sin
-// este reintento, esos primeros segundos después de cada sincronización se
-// ven como "todas las fotos se dañaron", cuando en realidad se resuelven
-// solas si se piden de nuevo un poco después.
-const REINTENTOS_FOTO_SOSPECHOSA = 3;
-const ESPERA_REINTENTO_MS = 2500;
-const intentosFotoPorImg = new WeakMap();
 function fotoCargada(img, tipo){
   try{
     if(!window.performance || !performance.getEntriesByType) return;
@@ -2144,23 +2133,6 @@ function fotoCargada(img, tipo){
     // antes sin datos de red) en vez de "imagen vacía" — en ese caso no se
     // toca nada, para no arriesgarse a un falso positivo.
     if(peso > 0 && peso < UMBRAL_BYTES_FOTO_SOSPECHOSA){
-      const intentosPrevios = intentosFotoPorImg.get(img) || 0;
-      if(intentosPrevios < REINTENTOS_FOTO_SOSPECHOSA){
-        intentosFotoPorImg.set(img, intentosPrevios + 1);
-        // Se pide la MISMA url otra vez (con un parámetro para saltar la
-        // caché del navegador; el CDN de imgbb no usa ese parámetro para
-        // nada, así que no rompe el hotlink) tras una pausa corta, en vez
-        // de rendirse al primer intento.
-        const urlBase = (img.dataset.fotoUrlBase || url);
-        img.dataset.fotoUrlBase = urlBase;
-        setTimeout(()=>{
-          const sep = urlBase.includes("?") ? "&" : "?";
-          img.src = urlBase + sep + "_r=" + Date.now();
-        }, ESPERA_REINTENTO_MS);
-        return;
-      }
-      // Ya se reintentó varias veces y sigue pesando sospechosamente poco:
-      // ahora sí se trata como foto rota de verdad.
       fotoError(img, tipo);
     }
   }catch(e){ /* Resource Timing no disponible en este navegador: no se hace nada */ }
