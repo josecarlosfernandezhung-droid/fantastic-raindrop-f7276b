@@ -76,7 +76,7 @@
       repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 2px, transparent 2px 14px),
       radial-gradient(120% 140% at 15% -10%, var(--carbon-claro) 0%, var(--carbon) 55%, var(--carbon-oscuro) 100%);
     color:var(--blanco);
-    padding:22px 18px 60px;
+    padding:22px 18px 38px;
     position:relative;
     overflow:hidden;
   }
@@ -119,6 +119,40 @@
   .horario-pill .punto{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
   .horario-pill.abierto .punto{ background:#3ECF6E; }
   .horario-pill.cerrado .punto{ background:#E85C5C; }
+
+  /* ---------- Foto de portada (banner grande debajo del encabezado) ---------- */
+  .portada-wrap{
+    width:100%; aspect-ratio:16/7; max-height:260px; overflow:hidden;
+    background:var(--acero-claro);
+  }
+  .portada-img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------- Portada + descripción de categoría (se muestra al elegir un chip) ---------- */
+  .categoria-banner{ margin:0 0 4px; }
+  .categoria-banner-img-wrap{
+    width:100%; aspect-ratio:16/7; max-height:200px; overflow:hidden;
+    background:var(--acero-claro);
+  }
+  .categoria-banner-img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .categoria-banner-texto{ padding:14px 16px 6px; }
+  .categoria-banner-nombre{ font-size:1.15rem; font-weight:800; margin:0 0 6px; }
+  .categoria-banner-desc{ font-size:.88rem; color:var(--acero-oscuro); line-height:1.45; white-space:pre-wrap; }
+  .categoria-banner-editar{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px;
+    font-size:.8rem; color:var(--ambar-texto); font-weight:700; cursor:pointer; user-select:none;
+  }
+  .categoria-banner-editar:active{ opacity:.6; }
+  .categoria-edit-row{ margin-bottom:12px; }
+  .categoria-edit-row label{ display:block; font-size:.82rem; font-weight:700; margin-bottom:6px; }
+  .categoria-edit-row input, .categoria-edit-row textarea{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--linea);
+    background:var(--blanco); color:var(--tinta); font-family:inherit; font-size:14px;
+  }
+  .categoria-edit-row textarea{ resize:vertical; min-height:80px; }
+  .categoria-edit-preview{
+    width:100%; aspect-ratio:16/7; max-height:140px; object-fit:cover; border-radius:10px;
+    margin-top:8px; background:var(--acero-claro); display:none;
+  }
 
   /* ---------- Franja "Nuevo en la tienda" ---------- */
   .novedades{ padding:16px 0 4px; }
@@ -527,11 +561,11 @@
   .tools-voltaje-btn.active{ background:var(--ambar); border-color:var(--ambar-oscuro); color:#fff; }
   .tools-field{ margin-bottom:14px; }
   .tools-field label{ display:block; font-size:.78rem; font-weight:600; color:var(--gris); margin-bottom:6px; }
-  .tools-field select, .tools-field input{
+  .tools-field select, .tools-field input, .tools-field textarea{
     width:100%; padding:11px 12px; border-radius:10px; border:1.5px solid var(--linea);
-    font-size:.92rem; color:var(--tinta); background:var(--blanco);
+    font-size:.92rem; color:var(--tinta); background:var(--blanco); font-family:inherit; resize:vertical;
   }
-  .tools-field select:focus, .tools-field input:focus{ outline:2px solid var(--ambar); outline-offset:1px; }
+  .tools-field select:focus, .tools-field input:focus, .tools-field textarea:focus{ outline:2px solid var(--ambar); outline-offset:1px; }
   .tools-resultado{ display:flex; gap:10px; margin:10px 0 8px; }
   .tools-resultado-item{
     flex:1; background:var(--acero-claro); border-radius:12px; padding:12px 14px; text-align:center;
@@ -624,6 +658,72 @@
     font-size:.85rem; font-weight:700; color:var(--ambar-texto); cursor:pointer; margin-top:2px; display:inline-block;
   }
   .info-row{ display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+  .info-map-wrap{ border-radius:12px; overflow:hidden; margin:-4px 0 14px; box-shadow:var(--sombra); }
+  .info-map{ width:100%; height:160px; border:0; display:block; }
+  .info-admin-link{
+    text-align:center; font-size:.82rem; color:var(--gris); margin-top:20px;
+    padding-top:14px; border-top:1px solid var(--linea); cursor:pointer;
+  }
+  .info-admin-link:active{ opacity:.6; }
+
+  /* ---------- Panel de administración ---------- */
+  .admin-bar{
+    display:none; align-items:center; justify-content:space-between; gap:10px;
+    background:#161a14; color:#fff; padding:9px 16px; font-size:.82rem;
+    position:sticky; top:0; z-index:60;
+  }
+  .admin-bar b{ font-weight:700; }
+  .admin-bar button{
+    background:rgba(255,255,255,.16); color:#fff; border:none; border-radius:8px;
+    padding:6px 12px; font-size:.78rem; font-family:inherit; cursor:pointer;
+  }
+  .admin-login-aviso{ font-size:.85rem; color:var(--gris); margin-bottom:16px; line-height:1.4; }
+  .admin-login-error{ display:none; background:#fdecec; color:#b3261e; border-radius:10px; padding:10px 12px; font-size:.82rem; margin-bottom:12px; }
+  .admin-detalle-box{
+    display:none; margin:16px 0; padding:14px; border-radius:14px;
+    background:var(--acero-claro); border:1px dashed var(--linea);
+  }
+  .admin-detalle-box h4{ margin:0 0 10px; font-size:.88rem; }
+  .admin-detalle-row{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .admin-detalle-row label{ font-size:.82rem; flex:0 0 90px; }
+  .admin-detalle-row input[type="number"]{
+    flex:1; padding:9px 10px; border-radius:9px; border:1px solid var(--linea); font-size:.9rem; font-family:inherit;
+  }
+  .admin-toggle-agotado{
+    flex:1; display:flex; align-items:center; gap:8px; padding:9px 10px;
+    border-radius:9px; border:1px solid var(--linea); font-size:.85rem; cursor:pointer;
+  }
+  .admin-detalle-guardar{
+    width:100%; padding:11px; border:none; border-radius:10px;
+    background:var(--ambar); background-color:var(--ambar);
+    color:#ffffff; font-weight:700; font-size:.9rem; font-family:inherit; cursor:pointer; margin-top:4px;
+    -webkit-appearance:none; appearance:none; box-sizing:border-box; line-height:1.3;
+  }
+  .admin-detalle-guardar:disabled{ background:var(--ambar); background-color:var(--ambar); opacity:.75; color:#ffffff; }
+  .admin-detalle-box{ margin-bottom:24px; }
+  .admin-foto-subir-btn{
+    display:inline-block; padding:9px 14px; border-radius:9px; border:1px dashed var(--ambar-oscuro);
+    background:var(--crema); color:var(--ambar-texto); font-size:.85rem; font-weight:700; cursor:pointer;
+  }
+  .admin-foto-subir-btn:active{ opacity:.7; }
+  .admin-detalle-msg{ font-size:.8rem; margin-top:8px; text-align:center; min-height:1.1em; }
+
+  /* ---------- Reseñas ---------- */
+  .resena-resumen{ display:flex; align-items:center; gap:14px; padding:6px 0 18px; }
+  .resena-resumen-num{ font-size:2.1rem; font-weight:800; line-height:1; }
+  .resena-resumen-estrellas{ color:#F5A623; font-size:1.05rem; letter-spacing:1px; }
+  .resena-resumen-count{ font-size:.8rem; color:var(--gris); }
+  .resena-estrellas-elegir{ font-size:1.9rem; letter-spacing:6px; color:#D9DCE1; cursor:pointer; user-select:none; }
+  .resena-estrellas-elegir span.activa{ color:#F5A623; }
+  .resena-card{ padding:12px 0; border-bottom:1px solid var(--linea); }
+  .resena-card:last-child{ border-bottom:none; }
+  .resena-card-head{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .resena-card-nombre{ font-weight:700; font-size:.88rem; }
+  .resena-card-fecha{ font-size:.74rem; color:var(--gris); flex-shrink:0; }
+  .resena-card-estrellas{ color:#F5A623; font-size:.85rem; margin:2px 0 4px; letter-spacing:1px; }
+  .resena-card-texto{ font-size:.86rem; color:var(--tinta); line-height:1.4; }
+  .resena-vacio{ font-size:.85rem; color:var(--gris); text-align:center; padding:18px 0; }
+
   .info-row .info-icon{
     width:38px; height:38px; border-radius:50%; background:var(--acero-claro);
     display:flex; align-items:center; justify-content:center; font-size:1.05rem; flex-shrink:0;
@@ -815,6 +915,16 @@
   </div>
 </header>
 
+<div class="admin-bar" id="adminBar">
+  <span>🔧 <b>Modo administración</b> activo</span>
+  <button type="button" id="btnSalirAdmin">Salir</button>
+</div>
+
+<div class="portada-wrap" id="portadaWrap" style="display:none;">
+  <img class="portada-img" id="portadaImg" alt="" loading="lazy">
+</div>
+
+
 <div class="instalar-banner" id="instalarBanner" style="display:none;">
   <span>📲 Instala esta tienda en tu teléfono para abrirla más rápido</span>
   <div class="instalar-banner-btns">
@@ -836,6 +946,8 @@
 </div>
 
 <div class="chips" id="chips"></div>
+
+<div class="categoria-banner" id="categoriaBanner" style="display:none;"></div>
 
 <div class="controles-lista">
   <select class="select-orden" id="selectOrden">
@@ -862,6 +974,51 @@
   <span class="cart-bubble-info"><span id="cartCount">0</span> productos<span class="dot">·</span><span id="cartBubbleTotal">0</span></span>
 </button>
 
+<div class="overlay" id="overlayAdminLogin">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>🔐 Panel de administración</h2>
+      <button class="close-x" id="closeAdminLogin">✕</button>
+    </div>
+    <div class="sheet-body" style="padding:16px;">
+      <div class="admin-login-aviso">Entra con la misma cuenta (correo y contraseña) que usas en la app del catálogo para publicar en el sitio. Desde aquí vas a poder cambiar el precio de un producto o marcarlo como agotado directamente, sin abrir la app.</div>
+      <div class="admin-login-error" id="adminLoginError"></div>
+      <div class="tools-field">
+        <label>Correo</label>
+        <input type="email" id="adminEmail" autocomplete="username" placeholder="tienda@tucorreo.com">
+      </div>
+      <div class="tools-field">
+        <label>Contraseña</label>
+        <input type="password" id="adminPassword" autocomplete="current-password">
+      </div>
+      <button type="button" class="admin-detalle-guardar" id="btnEntrarAdmin">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlayEditarCategoria">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>🖼️ Editar categoría</h2>
+      <button class="close-x" id="closeEditarCategoria">✕</button>
+    </div>
+    <div class="sheet-body" style="padding:16px;">
+      <div class="admin-login-error" id="categoriaEditError"></div>
+      <div class="categoria-edit-row">
+        <label>Imagen de portada (URL)</label>
+        <input type="text" id="categoriaEditImagen" placeholder="https://...">
+        <img class="categoria-edit-preview" id="categoriaEditPreview" alt="">
+      </div>
+      <div class="categoria-edit-row">
+        <label>Descripción</label>
+        <textarea id="categoriaEditDescripcion" placeholder="Cuéntale al cliente qué encuentra en esta categoría..." maxlength="500"></textarea>
+      </div>
+      <button type="button" class="admin-detalle-guardar" id="btnGuardarCategoria">Guardar cambios</button>
+      <div class="admin-detalle-msg" id="categoriaEditMsg"></div>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay">
   <div class="sheet">
     <div class="sheet-head">
@@ -875,7 +1032,9 @@
     <div class="sheet-foot">
       <div class="pago-opciones" id="pagoOpciones" style="display:none;"></div>
       <div class="pago-opciones" id="entregaOpciones"></div>
-      <textarea id="direccionEntrega" placeholder="Dirección de entrega..." style="display:none;width:100%;margin:8px 0;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-family:inherit;font-size:14px;resize:vertical;min-height:44px;"></textarea>
+      <input type="text" id="nombreCliente" placeholder="Tu nombre..." style="width:100%;margin:8px 0 0;padding:10px 12px;border-radius:10px;border:1px solid var(--linea);background:var(--blanco);color:var(--tinta);font-family:inherit;font-size:14px;">
+      <textarea id="direccionEntrega" placeholder="Dirección de entrega..." style="display:none;width:100%;margin:8px 0;padding:10px 12px;border-radius:10px;border:1px solid var(--linea);background:var(--blanco);color:var(--tinta);font-family:inherit;font-size:14px;resize:vertical;min-height:44px;"></textarea>
+      <textarea id="referenciaRecogida" placeholder="Punto de referencia para identificarte al recoger (opcional)..." style="display:none;width:100%;margin:8px 0;padding:10px 12px;border-radius:10px;border:1px solid var(--linea);background:var(--blanco);color:var(--tinta);font-family:inherit;font-size:14px;resize:vertical;min-height:44px;"></textarea>
       <div class="total-row">
         <span class="label">Total</span>
         <span class="valor" id="cartTotal">0</span>
@@ -984,6 +1143,41 @@
   </div>
 </div>
 
+<div class="overlay" id="overlayResenas">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>⭐ Reseñas</h2>
+      <button class="close-x" id="closeResenas">✕</button>
+    </div>
+    <div class="sheet-body" style="padding:2px 16px 24px;">
+      <div id="resenasResumenBox"></div>
+
+      <div class="resena-form" id="resenaForm" style="display:none;">
+        <div class="tools-field">
+          <label>Tu nombre</label>
+          <input type="text" id="resenaNombre" maxlength="60" placeholder="Ej: María">
+        </div>
+        <div class="tools-field">
+          <label>¿Cuántas estrellas le das?</label>
+          <div class="resena-estrellas-elegir" id="resenaEstrellasElegir">
+            <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+          </div>
+        </div>
+        <div class="tools-field">
+          <label>Comentario (opcional)</label>
+          <textarea id="resenaComentario" maxlength="500" rows="3" placeholder="¿Qué te pareció la tienda?"></textarea>
+        </div>
+        <button type="button" class="admin-detalle-guardar" id="btnEnviarResena">Enviar reseña</button>
+        <div class="admin-detalle-msg" id="resenaMsg"></div>
+      </div>
+      <button type="button" class="btn-compartir" id="btnMostrarFormResena" style="width:100%;margin-top:6px;">✍️ Deja una reseña</button>
+
+      <div class="info-section-label">Lo que dicen los clientes</div>
+      <div id="resenasLista"></div>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlayProducto">
   <div class="sheet">
     <div class="sheet-head">
@@ -998,6 +1192,42 @@
       <div class="price-row" id="detallePrecios" style="margin-bottom:14px;"></div>
       <div class="add-row" id="detalleAddRow" style="justify-content:flex-start;gap:14px;"></div>
       <div class="detalle-descripcion" id="detalleDescripcion" style="display:none;"></div>
+      <div class="admin-detalle-box" id="adminDetalleBox">
+        <h4>🔧 Editar (solo tú lo ves)</h4>
+        <div class="admin-detalle-row">
+          <label>Precio</label>
+          <input type="number" id="adminPrecioInput" inputmode="decimal" min="0" step="0.01">
+        </div>
+        <div class="admin-detalle-row">
+          <label>Foto (URL)</label>
+          <input type="text" id="adminFotoInput" placeholder="https://...">
+        </div>
+        <div class="admin-detalle-row" style="align-items:flex-start;">
+          <label></label>
+          <div style="flex:1;">
+            <label class="admin-foto-subir-btn" for="adminFotoArchivo">📷 Subir foto desde el teléfono</label>
+            <input type="file" id="adminFotoArchivo" accept="image/*" style="display:none;">
+            <div id="adminFotoPreviewWrap" style="display:none;margin-top:8px;">
+              <img id="adminFotoPreviewImg" style="width:70px;height:70px;object-fit:cover;border-radius:8px;vertical-align:middle;">
+              <span style="font-size:.8rem;color:var(--acero-oscuro);margin-left:8px;">Nueva foto lista, se guarda al tocar "Guardar cambios"</span>
+              <span id="adminFotoQuitar" style="display:block;font-size:.78rem;color:#b3261e;margin-top:4px;cursor:pointer;">✕ Quitar y usar la de siempre</span>
+            </div>
+          </div>
+        </div>
+        <div class="admin-detalle-row" style="align-items:flex-start;">
+          <label>Descripción</label>
+          <textarea id="adminDescripcionInput" rows="3" placeholder="Descripción del producto..." style="flex:1;padding:9px 10px;border-radius:9px;border:1px solid var(--linea);font-size:.9rem;font-family:inherit;resize:vertical;"></textarea>
+        </div>
+        <div class="admin-detalle-row">
+          <label></label>
+          <label class="admin-toggle-agotado">
+            <input type="checkbox" id="adminAgotadoInput" style="width:auto;flex:0;">
+            Marcar como agotado
+          </label>
+        </div>
+        <button type="button" class="admin-detalle-guardar" id="btnGuardarAdmin">Guardar cambios</button>
+        <div class="admin-detalle-msg" id="adminDetalleMsg"></div>
+      </div>
       <div class="detalle-relacionados" id="detalleRelacionados" style="display:none;">
         <h3>También te puede interesar</h3>
         <div class="novedades-scroll" id="detalleRelacionadosScroll"></div>
@@ -1102,6 +1332,7 @@ const CONFIG = {
   // lo que no quieras mostrar — esa fila simplemente no aparece.
   description: "",     // texto sobre la tienda
   address: "",         // ej: "Santiago de Cuba, Santiago de Cuba"
+  coverImageUrl: "",   // foto de portada (banner grande debajo del encabezado); vacío = no se muestra
   deliveryText: "",    // ej: "Entregamos a domicilio" — vacío = no se muestra
   facebookUrl: "",     // link a tu página de Facebook, vacío = no se muestra
   instagramUrl: "",    // link a tu Instagram, vacío = no se muestra
@@ -1126,6 +1357,14 @@ const CONFIG = {
   // siempre la última versión.
   firebaseDbUrl: "https://catalogo-7f269-default-rtdb.europe-west1.firebasedatabase.app",
 
+  // Para el panel de administración (editar precio / marcar agotado desde el
+  // propio sitio, con contraseña). Es la MISMA "API key" que ya usas en la
+  // app del catálogo (Configuración → Sitio web → "Firebase API Key") —
+  // cópiala tal cual aquí. No es un dato secreto (es normal que esté visible
+  // en el código de cualquier sitio con Firebase); lo que de verdad protege
+  // los datos es la contraseña de la cuenta y las reglas de Firebase.
+  firebaseApiKey: "AIzaSyC-CqCcBstg83wuxATQSLFxajufl2GsuCM",
+
   // PROXY (para que tus clientes en Cuba NO necesiten VPN) ------------------
   // Firebase (*.firebasedatabase.app) suele estar bloqueado sin VPN. La
   // solución es que el navegador del cliente NUNCA hable directo con Firebase:
@@ -1140,7 +1379,12 @@ const CONFIG = {
   usarProxy: true,
   proxyPath: "/.netlify/functions/firebase-proxy",
 
-  productsFile: "./productos.json" // se usa solo si firebaseDbUrl está vacío
+  productsFile: "./productos.json", // se usa solo si firebaseDbUrl está vacío
+
+  // Portada y descripción por categoría (opcional). Se llena editando desde
+  // el panel de administración del sitio; se guarda en Firebase separado del
+  // catálogo de productos, así que nunca choca con la app.
+  categoriasInfo: {}
 };
 
 // Construye la URL a usar para hablar con Firebase Realtime Database. Con el
@@ -1152,6 +1396,28 @@ function dbUrl(path){
     return `${CONFIG.proxyPath}?path=${encodeURIComponent(path)}`;
   }
   return `${CONFIG.firebaseDbUrl}${path}`;
+}
+
+// El proxy (/.netlify/functions/firebase-proxy) solo existe cuando el sitio
+// está publicado en Netlify. Si abres este mismo archivo .html directo en el
+// teléfono (sin publicarlo) esa ruta no existe y la petición falla. Para que
+// aun así puedas ver la tienda con datos reales, si el proxy falla se
+// reintenta yendo directo a Firebase (esto solo funciona si tienes VPN
+// activa, porque Firebase por sí solo está bloqueado en Cuba — para tus
+// clientes, que sí ven el sitio ya publicado en Netlify, esto nunca hace
+// falta porque el proxy siempre responde bien).
+async function fetchFirebase(path, opts){
+  opts = opts || {};
+  const irDirecto = () => fetch(`${CONFIG.firebaseDbUrl}${path}`, opts);
+  const sinProxyDisponible = !CONFIG.usarProxy || !CONFIG.proxyPath || location.protocol === "file:";
+  if(sinProxyDisponible) return irDirecto();
+  try{
+    const res = await fetch(`${CONFIG.proxyPath}?path=${encodeURIComponent(path)}`, opts);
+    if(res.ok) return res;
+    return irDirecto(); // el proxy respondió pero con error (ej. función no encontrada) — probamos directo
+  }catch(e){
+    return irDirecto(); // el proxy ni siquiera existe en este origen (archivo local, otro hosting, etc.)
+  }
 }
 
 let PRODUCTS = [];
@@ -1338,7 +1604,7 @@ function analiticaDisponible(){ return !!CONFIG.firebaseDbUrl; }
 function trackEvento(tipo, datos){
   if(!analiticaDisponible()) return;
   try{
-    fetch(dbUrl(`/analitica/${tipo}.json`), {
+    fetchFirebase(`/analitica/${tipo}.json`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...datos, ts: Date.now() })
@@ -1446,7 +1712,7 @@ async function abrirAnalitica(){
   }
   body.innerHTML = `<div class="tools-aviso">Cargando datos…</div>`;
   try{
-    const res = await fetch(dbUrl(`/analitica.json`));
+    const res = await fetchFirebase(`/analitica.json`);
     const data = await res.json();
     body.innerHTML = renderAnaliticaHtml(data || {});
   }catch(e){
@@ -1556,9 +1822,7 @@ async function loadProducts(){
     if(textoCarga) textoCarga.textContent = "Tu conexión está lenta, seguimos esperando…";
   }, 10000);
 
-  const url = CONFIG.firebaseDbUrl
-    ? dbUrl(`/catalogo.json`)
-    : CONFIG.productsFile;
+  const usarFirebase = !!CONFIG.firebaseDbUrl;
   // Se intenta hasta 2 veces: la primera con un límite de 30s (rápido, para
   // el caso normal), y si esa se corta por tardanza (no por un error real
   // del servidor), se reintenta una vez más con 60s. Con mala señal móvil,
@@ -1571,7 +1835,10 @@ async function loadProducts(){
     try{
       const controller = new AbortController();
       const abortTimer = setTimeout(() => controller.abort(), intentos[i]);
-      const res = await fetch(url, { cache:"no-store", signal: controller.signal });
+      const opts = { cache:"no-store", signal: controller.signal };
+      const res = usarFirebase
+        ? await fetchFirebase(`/catalogo.json`, opts)
+        : await fetch(CONFIG.productsFile, opts);
       clearTimeout(abortTimer);
       if(!res.ok) throw new Error("no se pudo leer el catálogo");
       const data = await res.json();
@@ -1646,8 +1913,20 @@ function inyectarDatosEstructurados(){
       "name": CONFIG.shopName || "Tienda",
       "url": location.href.split("?")[0].split("#")[0]
     };
-    if(CONFIG.address) negocio.address = CONFIG.address;
+    if(CONFIG.address) negocio.address = { "@type": "PostalAddress", "streetAddress": CONFIG.address };
     if(CONFIG.whatsappNumber) negocio.telephone = "+" + CONFIG.whatsappNumber;
+    if(CONFIG.coverImageUrl) negocio.image = CONFIG.coverImageUrl;
+    const redesTienda = [CONFIG.facebookUrl, CONFIG.instagramUrl].filter(Boolean);
+    if(redesTienda.length) negocio.sameAs = redesTienda;
+    if(CONFIG.horaApertura && CONFIG.horaCierre && Array.isArray(CONFIG.diasAbierto) && CONFIG.diasAbierto.length){
+      const DIAS_SCHEMA = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      negocio.openingHoursSpecification = CONFIG.diasAbierto.map(d => ({
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": DIAS_SCHEMA[d],
+        "opens": CONFIG.horaApertura,
+        "closes": CONFIG.horaCierre
+      }));
+    }
 
     // Limitamos a 40 productos para no inflar el peso del HTML de más.
     const productosLd = PRODUCTS.slice(0, 40).map(p => ({
@@ -1713,6 +1992,7 @@ function aplicarCatalogoCrudo(raw){
       if(raw.tienda.exchangeRate) CONFIG.exchangeRate = raw.tienda.exchangeRate;
       if(raw.tienda.description) CONFIG.description = raw.tienda.description;
       if(raw.tienda.address) CONFIG.address = raw.tienda.address;
+      if(raw.tienda.coverImageUrl) CONFIG.coverImageUrl = raw.tienda.coverImageUrl;
       if(raw.tienda.deliveryText) CONFIG.deliveryText = raw.tienda.deliveryText;
       if(raw.tienda.facebookUrl) CONFIG.facebookUrl = raw.tienda.facebookUrl;
       if(raw.tienda.instagramUrl) CONFIG.instagramUrl = raw.tienda.instagramUrl;
@@ -1727,6 +2007,7 @@ function aplicarCatalogoCrudo(raw){
       // Si Firebase no trae un logo propio, se conserva el logo por defecto
       // (CONFIG.logo) en vez de volver al ícono genérico 🛍️.
       aplicarLogo(raw.tienda.logo || CONFIG.logo);
+      renderPortada();
       renderResumenTienda();
      }catch(e){
       // Un dato raro en "tienda" (color mal formado, etc.) no debe tumbar
@@ -1828,6 +2109,43 @@ function calcularEstadoHorario(){
   }
   return { abierto:false, texto:"Cerrado" };
 }
+/* ---------- Foto de portada (banner grande debajo del encabezado) ---------- */
+function renderPortada(){
+  const wrap = document.getElementById("portadaWrap");
+  const img = document.getElementById("portadaImg");
+  if(!wrap || !img) return;
+  if(!CONFIG.coverImageUrl){ wrap.style.display = "none"; return; }
+  // Si el link de la foto no carga (roto, vencido, bloqueado), ocultamos todo
+  // el bloque en vez de dejar ver el ícono de "imagen rota" a los clientes.
+  img.onerror = () => { wrap.style.display = "none"; };
+  img.alt = CONFIG.shopName || "";
+  img.src = CONFIG.coverImageUrl;
+  wrap.style.display = "block";
+}
+
+async function editarPortadaTienda(){
+  const actual = CONFIG.coverImageUrl || "";
+  const nueva = prompt("Pega el link (URL) de la foto de portada. Déjalo vacío y acepta para quitarla.", actual);
+  if(nueva === null) return; // tocó cancelar
+  const valor = nueva.trim();
+  try{
+    const idToken = await tokenAdminValido();
+    if(!idToken) throw new Error("Se venció la sesión, entra de nuevo al panel de administración.");
+    const res = await fetch(`${CONFIG.firebaseDbUrl}/catalogo/tienda/coverImageUrl.json?auth=${encodeURIComponent(idToken)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(valor)
+    });
+    if(!res.ok) throw new Error("Firebase no aceptó el cambio (revisa las reglas de escritura).");
+    CONFIG.coverImageUrl = valor;
+    renderPortada();
+    renderInfoTienda();
+    alert(valor ? "✓ Portada actualizada." : "✓ Portada quitada.");
+  }catch(e){
+    alert("No se pudo guardar: " + (e.message || "error desconocido"));
+  }
+}
+
 /* ---------- Cinta deslizante de aviso ---------- */
 function renderBanner(){
   const wrap = document.getElementById("bannerTicker");
@@ -1878,6 +2196,7 @@ function buildInfoExtraHtml(suffix){
   }
   if(CONFIG.address){
     html += `<div class="info-row"><div class="info-icon">📍</div><div class="info-text">${escapeHtml(CONFIG.address)}</div></div>`;
+    html += `<div class="info-map-wrap"><iframe class="info-map" src="https://maps.google.com/maps?q=${encodeURIComponent(CONFIG.address)}&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación en el mapa"></iframe></div>`;
   }
   if(CONFIG.deliveryText){
     html += `<div class="info-row"><div class="info-icon">🛍️</div><div class="info-text">${escapeHtml(CONFIG.deliveryText)}</div></div>`;
@@ -1929,10 +2248,18 @@ let resumenDescExpandida = false;
 function renderResumenTienda(){
   const wrap = document.getElementById("tiendaResumen");
   if(!wrap) return;
-  if(!CONFIG.description && !hayInfoExtra()){ wrap.style.display = "none"; return; }
+  if(!CONFIG.description && !hayInfoExtra() && !resenasCargadas.length){ wrap.style.display = "none"; return; }
   wrap.style.display = "block";
 
   let html = "";
+  if(resenasCargadas.length){
+    const prom = promedioResenas();
+    html += `<div class="tienda-resumen-rating" id="resumenRatingLink" style="display:flex;align-items:center;gap:6px;font-size:.85rem;margin-bottom:8px;cursor:pointer;">
+      <span style="color:#F5A623;">${"★".repeat(Math.round(prom))}${"☆".repeat(5-Math.round(prom))}</span>
+      <b>${prom.toFixed(1)}</b>
+      <span style="color:var(--gris);">(${resenasCargadas.length} reseña${resenasCargadas.length===1?"":"s"})</span>
+    </div>`;
+  }
   const esLarga = !!CONFIG.description && CONFIG.description.length > 100;
   if(CONFIG.description){
     html += `<div class="tienda-resumen-desc${(esLarga && !resumenDescExpandida) ? " clamped" : ""}">${escapeHtml(CONFIG.description)}</div>`;
@@ -1957,6 +2284,8 @@ function renderResumenTienda(){
       renderResumenTienda();
     };
   }
+  const ratingLink = document.getElementById("resumenRatingLink");
+  if(ratingLink) ratingLink.onclick = abrirResenas;
   bindInfoExtraEvents("Resumen");
 }
 
@@ -1981,6 +2310,9 @@ function renderInfoTienda(){
   }
 
   html += buildInfoExtraHtml("");
+  html += `<div class="info-admin-link" id="btnAbrirResenasInfo" style="border-top:none;padding-top:0;">⭐ Ver reseñas de la tienda</div>`;
+  if(modoAdmin) html += `<div class="info-admin-link" id="btnEditarPortadaTienda">🖼️ ${CONFIG.coverImageUrl ? "Cambiar o quitar" : "Poner"} portada de la tienda</div>`;
+  html += `<div class="info-admin-link" id="btnAbrirAdmin">⚙️ Panel de administración</div>`;
 
   body.innerHTML = html;
 
@@ -1988,6 +2320,12 @@ function renderInfoTienda(){
   if(verMas) verMas.onclick = () => { infoDescExpandida = true; renderInfoTienda(); };
   const verMenos = document.getElementById("infoDescVerMenos");
   if(verMenos) verMenos.onclick = () => { infoDescExpandida = false; renderInfoTienda(); };
+  const btnAdmin = document.getElementById("btnAbrirAdmin");
+  if(btnAdmin) btnAdmin.onclick = abrirAdmin;
+  const btnResenasInfo = document.getElementById("btnAbrirResenasInfo");
+  if(btnResenasInfo) btnResenasInfo.onclick = abrirResenas;
+  const btnEditarPortada = document.getElementById("btnEditarPortadaTienda");
+  if(btnEditarPortada) btnEditarPortada.onclick = editarPortadaTienda;
 
   const selector = document.getElementById("monedaSelector");
   const opcionesEl = document.getElementById("monedaOpciones");
@@ -2037,7 +2375,10 @@ function renderNovedades(){
         <div class="precio">${precioTexto(p.price)}</div>
       </div>
     `;
-    card.onclick = () => { changeQty(p, 1); openCart(); };
+    // Abre el detalle igual que el resto del catálogo, para que el cliente
+    // pueda ver la descripción antes de decidir — agregar rápido sigue
+    // disponible desde ahí con el botón "+".
+    card.onclick = () => abrirDetalle(p);
     scroll.appendChild(card);
   });
 }
@@ -2076,7 +2417,7 @@ function buildChips(){
     const el = document.createElement("button");
     el.className = "chip" + (cat === activeCategory ? " active" : "");
     el.textContent = cat;
-    el.onclick = () => { activeCategory = cat; buildChips(); render(); };
+    el.onclick = () => { activeCategory = cat; buildChips(); renderCategoriaBanner(); render(); };
     wrap.appendChild(el);
   });
   // Chip de favoritos, solo si hay al menos uno guardado.
@@ -2084,9 +2425,10 @@ function buildChips(){
     const el = document.createElement("button");
     el.className = "chip" + (activeCategory === "__favoritos__" ? " active" : "");
     el.textContent = `❤️ Favoritos (${favoritos.size})`;
-    el.onclick = () => { activeCategory = "__favoritos__"; buildChips(); render(); };
+    el.onclick = () => { activeCategory = "__favoritos__"; buildChips(); renderCategoriaBanner(); render(); };
     wrap.appendChild(el);
   }
+  renderCategoriaBanner();
 }
 
 // ---- Modo ahorro de datos en conexiones lentas ----
@@ -2117,7 +2459,10 @@ function fotoTag(src, alt, style, fallbackSrc){
 // cualquier foto de producto real. Si pesa sospechosamente poco, se trata
 // igual que un error de carga: se prueba el fallback (la foto grande) antes
 // de rendirse.
-const UMBRAL_BYTES_FOTO_SOSPECHOSA = 4000;
+// (Se subió este umbral de 4000 a 15000: la imagen de aviso de imgbb, con su
+// logo y texto, pesa más de lo que parecía — con 4000 no se estaba detectando
+// y se quedaba viéndose como si fuera la foto real.)
+const UMBRAL_BYTES_FOTO_SOSPECHOSA = 15000;
 function fotoCargada(img, tipo){
   try{
     if(!window.performance || !performance.getEntriesByType) return;
@@ -2441,6 +2786,7 @@ function updateCartBubble(){
 /* ---------- Carrito / modal ---------- */
 function openCart(){
   renderCartSheet();
+  cargarDatosClienteGuardados();
   document.getElementById("overlay").classList.add("show");
 }
 function closeCart(){
@@ -2561,9 +2907,25 @@ function renderEntregaOpciones(){
   `;
   const direccionBox = document.getElementById("direccionEntrega");
   direccionBox.style.display = metodoEntrega === "domicilio" ? "block" : "none";
+  const referenciaBox = document.getElementById("referenciaRecogida");
+  if(referenciaBox) referenciaBox.style.display = metodoEntrega === "tienda" ? "block" : "none";
   wrap.querySelectorAll(".pago-opcion").forEach(el => {
     el.onclick = () => { metodoEntrega = el.dataset.entrega; renderEntregaOpciones(); };
   });
+}
+
+/* ---------- Datos del cliente (nombre + referencia/dirección) ----------
+   Se guardan en este navegador para que un cliente que ya pidió antes no
+   tenga que volver a escribir su nombre cada vez. */
+function cargarDatosClienteGuardados(){
+  try{
+    const nombreEl = document.getElementById("nombreCliente");
+    const guardado = localStorage.getItem("nombreClienteTienda");
+    if(nombreEl && guardado && !nombreEl.value) nombreEl.value = guardado;
+  }catch(e){ /* sin almacenamiento, no pasa nada grave */ }
+}
+function guardarNombreCliente(nombre){
+  try{ localStorage.setItem("nombreClienteTienda", nombre); }catch(e){ /* se ignora */ }
 }
 
 // Genera un número de pedido corto tipo "#TT-4821" (iniciales de la tienda +
@@ -2580,9 +2942,35 @@ function generarNumeroPedido(){
   return `${iniciales}-${sufijo}`;
 }
 
+// Antes de armar el mensaje, nos aseguramos de tener nombre del cliente y,
+// según la entrega, la dirección (domicilio) o al menos intentamos que deje
+// una referencia (recogida) — así quien recibe el pedido por WhatsApp sabe
+// con certeza a quién atiende y dónde, sin tener que preguntar de vuelta.
+function validarDatosClientePedido(){
+  const nombreEl = document.getElementById("nombreCliente");
+  const nombre = (nombreEl.value || "").trim();
+  if(!nombre){
+    alert("Escribe tu nombre antes de enviar el pedido, así sabemos a quién atender.");
+    nombreEl.focus();
+    return false;
+  }
+  if(metodoEntrega === "domicilio"){
+    const dirEl = document.getElementById("direccionEntrega");
+    const dir = (dirEl.value || "").trim();
+    if(!dir){
+      alert("Escribe la dirección de entrega antes de enviar el pedido.");
+      dirEl.focus();
+      return false;
+    }
+  }
+  guardarNombreCliente(nombre);
+  return true;
+}
+
 function enviarPedidoWhatsApp(){
   const ids = Object.keys(cart);
   if(!ids.length) return;
+  if(!validarDatosClientePedido()) return;
 
   const numeroPedido = generarNumeroPedido();
   const separador = "-----------------------------";
@@ -2635,10 +3023,13 @@ function enviarPedidoWhatsApp(){
     : "Transferencia";
   lines.push(`💳 Método de pago: ${etiquetaPago}`);
 
+  const nombreCliente = (document.getElementById("nombreCliente").value || "").trim();
   const direccion = (document.getElementById("direccionEntrega").value || "").trim();
+  const referencia = (document.getElementById("referenciaRecogida").value || "").trim();
   const etiquetaEntrega = metodoEntrega === "domicilio"
     ? `Envío a domicilio${direccion ? " — " + direccion : ""}`
-    : "Recogida en tienda";
+    : `Recogida en tienda${referencia ? " — " + referencia : ""}`;
+  lines.push(`🙋 Cliente: ${nombreCliente}`);
   lines.push(`📍 Entrega: ${etiquetaEntrega}`);
 
   if(CONFIG.infoPago){
@@ -3155,6 +3546,575 @@ Object.keys(CONV_FACTOR_A_MM).forEach(id => {
   document.getElementById(id).addEventListener("input", () => actualizarConversion(id));
 });
 
+/* ---------- Panel de administración (editar precio / agotado desde el sitio) ----------
+   Usa la misma cuenta de Firebase (correo+contraseña) que la app del catálogo
+   para publicar en el sitio, así que cualquier cambio de acá va directo a la
+   misma base de datos. OJO: esto es solo un atajo rápido — si después abres
+   la app del catálogo en el teléfono y haces una sincronización completa,
+   la app va a mandar OTRA VEZ el valor que ella tiene guardado (que puede
+   ser el viejo), y el cambio hecho aquí se perdería. Conviene, cuando se
+   pueda, reflejar el mismo cambio en la app también.
+   Nota sobre el bloqueo de internet en Cuba: a diferencia de la LECTURA del
+   catálogo (que pasa por el proxy propio para no necesitar VPN), iniciar
+   sesión y guardar cambios aquí habla DIRECTO con Firebase — igual que ya
+   hace la app del catálogo. Si desde el teléfono en Cuba no conecta, es
+   necesario usar VPN solo para esta parte (entrar y guardar), como ya haces
+   en la app. */
+let modoAdmin = false;
+let adminSession = null; // { idToken, refreshToken, expiraEn, email }
+
+function guardarSesionAdmin(s){
+  adminSession = s;
+  try{ localStorage.setItem("adminSession", JSON.stringify(s)); }catch(e){}
+}
+function borrarSesionAdmin(){
+  adminSession = null;
+  try{ localStorage.removeItem("adminSession"); }catch(e){}
+}
+function cargarSesionAdminGuardada(){
+  try{
+    const raw = localStorage.getItem("adminSession");
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){ return null; }
+}
+
+async function iniciarSesionAdmin(email, password){
+  if(!CONFIG.firebaseApiKey){
+    throw new Error("Falta configurar la Firebase API Key en el sitio (avísale a quien te armó la página).");
+  }
+  const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${encodeURIComponent(CONFIG.firebaseApiKey)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, returnSecureToken: true })
+  });
+  const data = await res.json().catch(() => ({}));
+  if(!res.ok || !data.idToken){
+    const msg = (data.error && data.error.message) || "";
+    if(msg.includes("INVALID") || msg.includes("PASSWORD") || msg.includes("EMAIL")){
+      throw new Error("Correo o contraseña incorrectos.");
+    }
+    throw new Error("No se pudo entrar. Revisa tu conexión e inténtalo de nuevo.");
+  }
+  const sesion = {
+    idToken: data.idToken,
+    refreshToken: data.refreshToken,
+    expiraEn: Date.now() + (Number(data.expiresIn || 3600) * 1000) - 60000,
+    email
+  };
+  guardarSesionAdmin(sesion);
+  return sesion;
+}
+
+async function refrescarTokenAdmin(sesion){
+  try{
+    const res = await fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(CONFIG.firebaseApiKey)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(sesion.refreshToken)}`
+    });
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok || !data.id_token) return null;
+    const nueva = {
+      idToken: data.id_token,
+      refreshToken: data.refresh_token,
+      expiraEn: Date.now() + (Number(data.expires_in || 3600) * 1000) - 60000,
+      email: sesion.email
+    };
+    guardarSesionAdmin(nueva);
+    return nueva;
+  }catch(e){ return null; }
+}
+
+function activarModoAdmin(){
+  modoAdmin = true;
+  const bar = document.getElementById("adminBar");
+  if(bar) bar.style.display = "flex";
+  if(productoDetalleActual) renderAdminDetalleBox(productoDetalleActual);
+  renderCategoriaBanner();
+}
+function salirModoAdmin(){
+  modoAdmin = false;
+  borrarSesionAdmin();
+  const bar = document.getElementById("adminBar");
+  if(bar) bar.style.display = "none";
+  const box = document.getElementById("adminDetalleBox");
+  if(box) box.style.display = "none";
+  renderCategoriaBanner();
+}
+
+async function inicializarSesionAdminSiExiste(){
+  const guardada = cargarSesionAdminGuardada();
+  if(!guardada) return;
+  if(Date.now() < guardada.expiraEn){
+    adminSession = guardada;
+    activarModoAdmin();
+    return;
+  }
+  const refrescada = await refrescarTokenAdmin(guardada);
+  if(refrescada) activarModoAdmin();
+  else borrarSesionAdmin();
+}
+inicializarSesionAdminSiExiste();
+
+function abrirAdmin(){
+  if(modoAdmin){
+    // ya está adentro: solo recuerda dónde encontrar la ficha de cada producto
+    alert("Ya estás en modo administración. Toca cualquier producto y usa el bloque \"🔧 Editar\" que aparece abajo del todo, para cambiarle el precio o marcarlo agotado.");
+    return;
+  }
+  document.getElementById("adminLoginError").style.display = "none";
+  document.getElementById("overlayAdminLogin").classList.add("show");
+}
+document.getElementById("closeAdminLogin").onclick = () => document.getElementById("overlayAdminLogin").classList.remove("show");
+document.getElementById("overlayAdminLogin").onclick = (e) => { if(e.target.id === "overlayAdminLogin") document.getElementById("overlayAdminLogin").classList.remove("show"); };
+document.getElementById("btnSalirAdmin").onclick = salirModoAdmin;
+document.getElementById("btnEntrarAdmin").onclick = async () => {
+  const btn = document.getElementById("btnEntrarAdmin");
+  const errBox = document.getElementById("adminLoginError");
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+  errBox.style.display = "none";
+  if(!email || !password){
+    errBox.textContent = "Escribe el correo y la contraseña.";
+    errBox.style.display = "block";
+    return;
+  }
+  btn.disabled = true; btn.textContent = "Entrando…";
+  try{
+    await iniciarSesionAdmin(email, password);
+    activarModoAdmin();
+    document.getElementById("overlayAdminLogin").classList.remove("show");
+    document.getElementById("adminPassword").value = "";
+  }catch(e){
+    errBox.textContent = e.message || "No se pudo entrar.";
+    errBox.style.display = "block";
+  }finally{
+    btn.disabled = false; btn.textContent = "Entrar";
+  }
+};
+
+// Asegura que el idToken actual sirva todavía (se refresca solo si ya venció
+// o está por vencer) antes de usarlo para guardar un cambio.
+async function tokenAdminValido(){
+  if(!adminSession) return null;
+  if(Date.now() < adminSession.expiraEn) return adminSession.idToken;
+  const refrescada = await refrescarTokenAdmin(adminSession);
+  if(!refrescada){ salirModoAdmin(); return null; }
+  adminSession = refrescada;
+  return refrescada.idToken;
+}
+
+// Foto pendiente de subir desde el teléfono (base64 SIN el prefijo "data:...",
+// igual que la guarda la app), o null si no se eligió ninguna foto nueva.
+let adminFotoBase64Pendiente = null;
+
+// Reduce y comprime la foto elegida hasta que pese poco (para no gastar de
+// más los datos móviles del cliente ni llenar la base de datos), probando
+// calidades cada vez más bajas si hace falta.
+function comprimirFotoAdmin(file){
+  return new Promise((resolve, reject) => {
+    const lector = new FileReader();
+    lector.onerror = () => reject(new Error("No se pudo leer la imagen."));
+    lector.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Ese archivo no parece una imagen válida."));
+      img.onload = () => {
+        const maxLado = 1000;
+        let w = img.width, h = img.height;
+        if(w > maxLado || h > maxLado){
+          if(w >= h){ h = Math.round(h * maxLado / w); w = maxLado; }
+          else{ w = Math.round(w * maxLado / h); h = maxLado; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        let calidad = 0.8;
+        let dataUrl = canvas.toDataURL("image/jpeg", calidad);
+        // Si sigue pesando mucho (>350KB aprox en base64), baja la calidad.
+        while(dataUrl.length > 350000 && calidad > 0.35){
+          calidad -= 0.15;
+          dataUrl = canvas.toDataURL("image/jpeg", calidad);
+        }
+        resolve(dataUrl);
+      };
+      img.src = lector.result;
+    };
+    lector.readAsDataURL(file);
+  });
+}
+
+document.getElementById("adminFotoArchivo").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = ""; // para poder elegir el mismo archivo otra vez si hace falta
+  if(!file) return;
+  const msg = document.getElementById("adminDetalleMsg");
+  try{
+    msg.style.color = "";
+    msg.textContent = "Preparando la foto…";
+    const dataUrl = await comprimirFotoAdmin(file);
+    adminFotoBase64Pendiente = dataUrl.split(",")[1]; // guardamos solo la parte base64, sin el prefijo
+    document.getElementById("adminFotoInput").value = "";
+    document.getElementById("adminFotoInput").placeholder = "Se usará la foto subida ↑";
+    document.getElementById("adminFotoPreviewImg").src = dataUrl;
+    document.getElementById("adminFotoPreviewWrap").style.display = "block";
+    msg.textContent = "";
+  }catch(err){
+    msg.style.color = "#b3261e";
+    msg.textContent = err.message || "No se pudo procesar la foto.";
+  }
+});
+document.getElementById("adminFotoQuitar").addEventListener("click", () => {
+  adminFotoBase64Pendiente = null;
+  document.getElementById("adminFotoPreviewWrap").style.display = "none";
+  document.getElementById("adminFotoInput").placeholder = "https://...";
+});
+
+function renderAdminDetalleBox(p){
+  const box = document.getElementById("adminDetalleBox");
+  if(!box) return;
+  if(!modoAdmin){ box.style.display = "none"; return; }
+  box.style.display = "block";
+  document.getElementById("adminPrecioInput").value = p.price;
+  // El campo de URL solo entiende links (http o data:); si la foto viene en
+  // base64 "pelado" (como la sube la app), lo dejamos vacío para no confundir
+  // — el admin puede pegar una URL nueva, o subir una foto del teléfono.
+  const fotoActual = p.photo || "";
+  document.getElementById("adminFotoInput").value = (fotoActual.startsWith("http") || fotoActual.startsWith("data:")) ? fotoActual : "";
+  document.getElementById("adminFotoInput").placeholder = "https://...";
+  document.getElementById("adminDescripcionInput").value = p.description || "";
+  document.getElementById("adminAgotadoInput").checked = !!p.outOfStock;
+  document.getElementById("adminDetalleMsg").textContent = "";
+  // Limpia cualquier foto pendiente de un producto anterior.
+  adminFotoBase64Pendiente = null;
+  document.getElementById("adminFotoPreviewWrap").style.display = "none";
+}
+
+document.getElementById("btnGuardarAdmin").onclick = async () => {
+  const p = productoDetalleActual;
+  if(!p) return;
+  const msg = document.getElementById("adminDetalleMsg");
+  const btn = document.getElementById("btnGuardarAdmin");
+  const nuevoPrecio = Number(document.getElementById("adminPrecioInput").value);
+  const nuevaFotoUrl = document.getElementById("adminFotoInput").value.trim();
+  // La foto subida desde el teléfono tiene prioridad sobre una URL escrita a mano.
+  const nuevaFoto = adminFotoBase64Pendiente || nuevaFotoUrl;
+  const nuevaDescripcion = document.getElementById("adminDescripcionInput").value.trim();
+  const nuevoAgotado = document.getElementById("adminAgotadoInput").checked;
+  if(!nuevoPrecio || nuevoPrecio <= 0){
+    msg.style.color = "#b3261e";
+    msg.textContent = "Pon un precio válido.";
+    return;
+  }
+  btn.disabled = true; btn.textContent = "Guardando…";
+  msg.textContent = "";
+  try{
+    const idToken = await tokenAdminValido();
+    if(!idToken) throw new Error("Se venció la sesión, entra de nuevo.");
+    const payload = { price: nuevoPrecio, outOfStock: nuevoAgotado, description: nuevaDescripcion };
+    // Solo mandamos "photo" si el admin puso o subió algo, para no borrar sin
+    // querer la foto que ya subió la app cuando este campo se deja vacío.
+    // OJO: las tarjetas del catálogo (novedades, cuadrícula, etc.) NO usan
+    // "photo" sino una miniatura aparte, "photoThumb" — si solo actualizamos
+    // "photo", la miniatura vieja (o rota) se queda pegada en todas las
+    // tarjetas aunque el detalle ya se vea bien. Por eso actualizamos las dos
+    // con la misma imagen al editar desde aquí.
+    if(nuevaFoto){ payload.photo = nuevaFoto; payload.photoThumb = nuevaFoto; }
+    const res = await fetch(`${CONFIG.firebaseDbUrl}/catalogo/productos/${encodeURIComponent(p.id)}.json?auth=${encodeURIComponent(idToken)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error("Firebase no aceptó el cambio (revisa las reglas de escritura).");
+    // Refleja el cambio de inmediato, sin esperar al refresco automático de 2 min.
+    p.price = nuevoPrecio;
+    p.outOfStock = nuevoAgotado;
+    p.description = nuevaDescripcion;
+    if(nuevaFoto){ p.photo = nuevaFoto; p.photoThumb = nuevaFoto; }
+    adminFotoBase64Pendiente = null;
+    document.getElementById("adminFotoPreviewWrap").style.display = "none";
+    document.getElementById("detallePrecios").innerHTML = `
+      ${p.oldPrice ? `<span class="price-old">${precioTexto(p.oldPrice)}</span>` : ""}
+      <span class="price-now">${precioTexto(p.price)}</span>
+    `;
+    renderAddRow(document.getElementById("detalleAddRow"), p, cart[p.id] || 0);
+    // Refresca la foto principal del detalle sin reabrirlo entero.
+    const fotoWrap = document.getElementById("detalleFoto");
+    if(fotoWrap){
+      const img = fotoWrap.querySelector("img");
+      const src = photoSrc(p);
+      if(img && src) img.src = src;
+    }
+    // Refresca el bloque de descripción.
+    const descWrap = document.getElementById("detalleDescripcion");
+    if(descWrap){
+      if(p.description && p.description.trim()){
+        descWrap.style.display = "block";
+        descWrap.innerHTML = `<div class="detalle-descripcion-titulo">Descripción</div>${escapeHtml(p.description)}`;
+      }else{
+        descWrap.style.display = "none";
+        descWrap.innerHTML = "";
+      }
+    }
+    render();
+    // render() solo redibuja la cuadrícula principal — las franjas de
+    // "Nuevo en la tienda" y "Más vendidos" se arman aparte, así que hay que
+    // refrescarlas también para que la miniatura corregida se vea ahí mismo.
+    renderNovedades();
+    renderMasVendidos();
+    msg.style.color = "#1F8A4A";
+    msg.textContent = "✓ Guardado. Recuerda hacer el mismo cambio en la app del catálogo la próxima vez que la abras, para que no se te revierta.";
+  }catch(e){
+    msg.style.color = "#b3261e";
+    msg.textContent = e.message || "No se pudo guardar.";
+  }finally{
+    btn.disabled = false; btn.textContent = "Guardar cambios";
+  }
+};
+
+
+/* ---------- Reseñas de clientes ----------
+   Se guardan en Firebase, en /catalogo/resenas, con escritura pública (sin
+   contraseña) pero solo para CREAR — nadie puede editar ni borrar la reseña
+   de otra persona una vez escrita (eso lo protegen las reglas de Firebase).
+   Se leen todas al cargar el sitio (junto con el catálogo) para mostrar el
+   promedio y la lista; en una tienda con muchísimas reseñas convendría
+   limitar cuántas se traen, pero para el volumen normal de una tienda no
+   hace falta complicarlo. */
+let resenasCargadas = [];
+
+function promedioResenas(){
+  if(!resenasCargadas.length) return 0;
+  const suma = resenasCargadas.reduce((acc, r) => acc + (Number(r.estrellas) || 0), 0);
+  return suma / resenasCargadas.length;
+}
+
+/* ---------- Portada y descripción por categoría ----------
+   Igual que las reseñas, se guarda aparte del catálogo (en
+   /catalogo/categoriasInfo) para no tocar para nada los productos. */
+async function cargarCategoriasInfo(){
+  if(!CONFIG.firebaseDbUrl) return;
+  try{
+    const res = await fetchFirebase(`/catalogo/categoriasInfo.json`);
+    const data = await res.json().catch(() => null);
+    CONFIG.categoriasInfo = data || {};
+  }catch(e){
+    // si falla, simplemente no se muestran portadas de categoría
+  }
+  renderCategoriaBanner();
+}
+
+function renderCategoriaBanner(){
+  const wrap = document.getElementById("categoriaBanner");
+  if(!wrap) return;
+  const esCategoriaReal = activeCategory && activeCategory !== "Todos" && activeCategory !== "__favoritos__";
+  if(!esCategoriaReal){ wrap.style.display = "none"; return; }
+  const info = CONFIG.categoriasInfo[activeCategory] || {};
+  const hayAlgo = info.image || info.description || modoAdmin;
+  if(!hayAlgo){ wrap.style.display = "none"; return; }
+  wrap.style.display = "block";
+  let html = "";
+  if(info.image) html += `<div class="categoria-banner-img-wrap"><img class="categoria-banner-img" src="${escapeAttr(info.image)}" alt="${escapeAttr(activeCategory)}" loading="lazy" onerror="this.closest('.categoria-banner-img-wrap').style.display='none';"></div>`;
+  html += `<div class="categoria-banner-texto">`;
+  if(info.description) html += `<div class="categoria-banner-desc">${escapeHtml(info.description)}</div>`;
+  if(modoAdmin) html += `<div class="categoria-banner-editar" id="btnEditarCategoria">🖼️ Editar portada y descripción de esta categoría</div>`;
+  html += `</div>`;
+  wrap.innerHTML = html;
+  const btnEditar = document.getElementById("btnEditarCategoria");
+  if(btnEditar) btnEditar.onclick = () => abrirEditarCategoria(activeCategory);
+}
+
+function abrirEditarCategoria(categoria){
+  const info = CONFIG.categoriasInfo[categoria] || {};
+  document.getElementById("categoriaEditImagen").value = info.image || "";
+  document.getElementById("categoriaEditDescripcion").value = info.description || "";
+  document.getElementById("categoriaEditError").textContent = "";
+  document.getElementById("categoriaEditMsg").textContent = "";
+  actualizarPreviewCategoria();
+  document.getElementById("overlayEditarCategoria").classList.add("show");
+}
+function cerrarEditarCategoria(){
+  document.getElementById("overlayEditarCategoria").classList.remove("show");
+}
+function actualizarPreviewCategoria(){
+  const url = document.getElementById("categoriaEditImagen").value.trim();
+  const prev = document.getElementById("categoriaEditPreview");
+  if(url){ prev.src = url; prev.style.display = "block"; }
+  else{ prev.removeAttribute("src"); prev.style.display = "none"; }
+}
+document.getElementById("closeEditarCategoria").addEventListener("click", cerrarEditarCategoria);
+document.getElementById("overlayEditarCategoria").addEventListener("click", (e) => {
+  if(e.target.id === "overlayEditarCategoria") cerrarEditarCategoria();
+});
+document.getElementById("categoriaEditImagen").addEventListener("input", actualizarPreviewCategoria);
+
+document.getElementById("btnGuardarCategoria").onclick = async () => {
+  const categoria = activeCategory;
+  const imagen = document.getElementById("categoriaEditImagen").value.trim();
+  const descripcion = document.getElementById("categoriaEditDescripcion").value.trim();
+  const err = document.getElementById("categoriaEditError");
+  const msg = document.getElementById("categoriaEditMsg");
+  const btn = document.getElementById("btnGuardarCategoria");
+  err.style.display = "none"; err.textContent = "";
+  msg.textContent = "";
+  btn.disabled = true; btn.textContent = "Guardando…";
+  try{
+    const idToken = await tokenAdminValido();
+    if(!idToken) throw new Error("Se venció la sesión, entra de nuevo.");
+    const res = await fetch(`${CONFIG.firebaseDbUrl}/catalogo/categoriasInfo/${encodeURIComponent(categoria)}.json?auth=${encodeURIComponent(idToken)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: imagen, description: descripcion })
+    });
+    if(!res.ok) throw new Error("Firebase no aceptó el cambio (revisa las reglas de escritura).");
+    CONFIG.categoriasInfo[categoria] = { image: imagen, description: descripcion };
+    renderCategoriaBanner();
+    msg.style.color = "#1F8A4A";
+    msg.textContent = "✓ Guardado, ya se ve en la tienda.";
+    setTimeout(cerrarEditarCategoria, 900);
+  }catch(e){
+    err.style.display = "block";
+    err.textContent = e.message || "No se pudo guardar.";
+  }finally{
+    btn.disabled = false; btn.textContent = "Guardar cambios";
+  }
+};
+
+async function cargarResenas(){
+  if(!CONFIG.firebaseDbUrl) return;
+  try{
+    const res = await fetchFirebase(`/catalogo/resenas.json`);
+    const data = await res.json().catch(() => null);
+    resenasCargadas = data
+      ? Object.keys(data).map(id => ({ id, ...data[id] })).sort((a, b) => (b.fecha||0) - (a.fecha||0))
+      : [];
+  }catch(e){
+    resenasCargadas = [];
+  }
+  renderResumenTienda();
+}
+
+function fechaCorta(ts){
+  if(!ts) return "";
+  const dias = Math.floor((Date.now() - ts) / 86400000);
+  if(dias <= 0) return "Hoy";
+  if(dias === 1) return "Ayer";
+  if(dias < 30) return `Hace ${dias} días`;
+  const meses = Math.floor(dias / 30);
+  if(meses < 12) return `Hace ${meses} mes${meses===1?"":"es"}`;
+  return new Date(ts).toLocaleDateString("es");
+}
+
+function renderResenas(){
+  const resumenBox = document.getElementById("resenasResumenBox");
+  const lista = document.getElementById("resenasLista");
+  if(!resumenBox || !lista) return;
+
+  if(!resenasCargadas.length){
+    resumenBox.innerHTML = "";
+  }else{
+    const prom = promedioResenas();
+    resumenBox.innerHTML = `
+      <div class="resena-resumen">
+        <div class="resena-resumen-num">${prom.toFixed(1)}</div>
+        <div>
+          <div class="resena-resumen-estrellas">${"★".repeat(Math.round(prom))}${"☆".repeat(5-Math.round(prom))}</div>
+          <div class="resena-resumen-count">${resenasCargadas.length} reseña${resenasCargadas.length===1?"":"s"}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  if(!resenasCargadas.length){
+    lista.innerHTML = `<div class="resena-vacio">Todavía no hay reseñas. ¡Sé el primero en dejar una!</div>`;
+    return;
+  }
+  lista.innerHTML = resenasCargadas.map(r => `
+    <div class="resena-card">
+      <div class="resena-card-head">
+        <span class="resena-card-nombre">${escapeHtml(r.nombre || "Cliente")}</span>
+        <span class="resena-card-fecha">${fechaCorta(r.fecha)}</span>
+      </div>
+      <div class="resena-card-estrellas">${"★".repeat(Number(r.estrellas)||0)}${"☆".repeat(5-(Number(r.estrellas)||0))}</div>
+      ${r.comentario ? `<div class="resena-card-texto">${escapeHtml(r.comentario)}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+function abrirResenas(){
+  renderResenas();
+  document.getElementById("resenaForm").style.display = "none";
+  document.getElementById("btnMostrarFormResena").style.display = "block";
+  document.getElementById("overlayResenas").classList.add("show");
+}
+document.getElementById("closeResenas").onclick = () => document.getElementById("overlayResenas").classList.remove("show");
+document.getElementById("overlayResenas").onclick = (e) => { if(e.target.id === "overlayResenas") document.getElementById("overlayResenas").classList.remove("show"); };
+
+let estrellasElegidas = 0;
+document.getElementById("resenaEstrellasElegir").querySelectorAll("span").forEach(el => {
+  el.onclick = () => {
+    estrellasElegidas = Number(el.dataset.v);
+    document.getElementById("resenaEstrellasElegir").querySelectorAll("span").forEach(s => {
+      s.classList.toggle("activa", Number(s.dataset.v) <= estrellasElegidas);
+    });
+  };
+});
+
+document.getElementById("btnMostrarFormResena").onclick = () => {
+  // Una reseña por persona (por navegador): si ya dejó una desde este
+  // teléfono, se le avisa en vez de dejarle mandar otra — no es a prueba de
+  // balas (podría borrar los datos del navegador y mandar otra), pero
+  // desalienta el abuso sin pedirle que se registre con nada.
+  if(localStorage.getItem("resenaEnviada") === "1"){
+    document.getElementById("resenaMsg").style.color = "var(--gris)";
+    document.getElementById("resenaMsg").textContent = "Ya dejaste una reseña desde este teléfono. ¡Gracias!";
+    return;
+  }
+  document.getElementById("resenaForm").style.display = "block";
+  document.getElementById("btnMostrarFormResena").style.display = "none";
+};
+
+document.getElementById("btnEnviarResena").onclick = async () => {
+  const btn = document.getElementById("btnEnviarResena");
+  const msg = document.getElementById("resenaMsg");
+  const nombre = document.getElementById("resenaNombre").value.trim();
+  const comentario = document.getElementById("resenaComentario").value.trim();
+  msg.textContent = "";
+  if(!nombre){
+    msg.style.color = "#b3261e"; msg.textContent = "Escribe tu nombre.";
+    return;
+  }
+  if(!estrellasElegidas){
+    msg.style.color = "#b3261e"; msg.textContent = "Toca las estrellas para calificar.";
+    return;
+  }
+  btn.disabled = true; btn.textContent = "Enviando…";
+  try{
+    const res = await fetchFirebase(`/catalogo/resenas.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre: nombre.slice(0, 60), estrellas: estrellasElegidas, comentario: comentario.slice(0, 500), fecha: Date.now() })
+    });
+    if(!res.ok) throw new Error();
+    try{ localStorage.setItem("resenaEnviada", "1"); }catch(e){}
+    document.getElementById("resenaForm").style.display = "none";
+    msg.style.color = "#1F8A4A";
+    msg.textContent = "";
+    document.getElementById("resenaNombre").value = "";
+    document.getElementById("resenaComentario").value = "";
+    estrellasElegidas = 0;
+    document.getElementById("resenaEstrellasElegir").querySelectorAll("span").forEach(s => s.classList.remove("activa"));
+    await cargarResenas();
+    renderResenas();
+    alert("¡Gracias por tu reseña!");
+  }catch(e){
+    msg.style.color = "#b3261e";
+    msg.textContent = "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.";
+  }finally{
+    btn.disabled = false; btn.textContent = "Enviar reseña";
+  }
+};
+
 /* ---------- Modal de detalle de producto ---------- */
 function abrirDetalle(p){
   productoDetalleActual = p;
@@ -3228,6 +4188,7 @@ function abrirDetalle(p){
   }
 
   renderRelacionados(p);
+  renderAdminDetalleBox(p);
 
   document.getElementById("overlayProducto").classList.add("show");
 }
@@ -3386,6 +4347,8 @@ document.getElementById("inputCargarArchivo").addEventListener("change", (e) => 
 });
 
 loadProducts();
+cargarResenas();
+cargarCategoriasInfo();
 /* ---------- PWA / modo offline: registra el Service Worker ----------
    Con esto, después de la primera visita, el sitio (el HTML, CSS y JS del
    propio catálogo) carga instantáneo aunque no haya internet. El catálogo
